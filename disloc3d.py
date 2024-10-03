@@ -1,14 +1,8 @@
 
 import numpy as np
-# global constants
-nu = 0.25
-Gshear = 30e9
 
-
-def dc3d_wrapper(m,slip,obs_pts):
-
-    global nu, Gshear 
-    
+def dc3d_wrapper(m,slip,obs_pts,nu,Gshear):
+   
     L = m[0]
     W = m[1]
     c = m[2]
@@ -598,6 +592,10 @@ def obs_grid(xmin=-10,xmax=10,ymin=-10,ymax=10,nx=20,ny=20):
 
 def demo():
     import matplotlib.pyplot as plt
+    
+    nu = 0.25
+    Gshear = 30e9
+
     num=25
 
     xy = obs_grid(xmin=-5,
@@ -617,7 +615,7 @@ def demo():
     H = 1
     m = [length,width,H,dip,strike,xc,yc]
 
-    disp, grad, stress = dc3d_wrapper(m,slip,xy)
+    disp, grad, stress = dc3d_wrapper(m,slip,xy,nu,Gshear)
 
     # Reshape the coordinates into 2D grid arrays
     X = xy[:, 0].reshape(num, num)
