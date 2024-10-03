@@ -17,21 +17,17 @@ def dc3d_wrapper(m,slip,obs_pts):
     xc = m[5]
     yc = m[6]
     
-    # some corrections...
+    # for consistency
     # okada strike uses ccw positive
     strike = -1 * strike 
-    # nudge c a little because otherwise we get physically impossible scenarios
-    c = c + 1 
-    # might need to make sure that my scale isnt off? (m vs km)
-
     # okada uses left lateral = positive slip
-    # so change it...
     slip_leftlat = slip.copy()
     slip_leftlat[0] = slip_leftlat[0]*-1
 
     xobs =  obs_pts[:,0]
     yobs =  obs_pts[:,1]
-    
+
+    # allow for 2d or 3d grid
     if obs_pts.shape[1] == 3:
         z = obs_pts[:,2]
     else:
