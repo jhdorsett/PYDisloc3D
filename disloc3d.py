@@ -1,14 +1,8 @@
 
 import numpy as np
-import configparser
-
-config = configparser.ConfigParser()
-config.read('params.cfg')
-elastic_params = config['Elastic Parameters']
-
 # global constants
-nu = float(elastic_params['nu'])
-Gshear = float(elastic_params['Gshear'])
+nu = 0.25
+Gshear = 30e9
 
 
 def dc3d_wrapper(m,slip,obs_pts):
