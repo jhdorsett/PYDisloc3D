@@ -7,17 +7,11 @@ def dc3d_wrapper(m,slip,obs_pts,nu,Gshear):
     W = m[1]
     c = m[2]
     dip=np.radians(m[3])
-    strike=np.radians(m[4])
+    # Okada geometry uses CCW strike as positive, negate here
+    strike=-np.radians(m[4])
     xc = m[5]
     yc = m[6]
     
-    # for consistency
-    # okada strike uses ccw positive
-    strike = -1 * strike 
-    # okada uses left lateral = positive slip
-    slip_leftlat = slip.copy()
-    slip_leftlat[0] = slip_leftlat[0]*-1
-
     xobs =  obs_pts[:,0]
     yobs =  obs_pts[:,1]
 
@@ -33,7 +27,7 @@ def dc3d_wrapper(m,slip,obs_pts,nu,Gshear):
     x, y = np.dot(R,np.array([xobs-xc,yobs-yc]))
     x = x + 0.5 * L
 
-    # error handling...
+    # error handling
 
     if nu == 0.5: nu = 0.4999
     if c < W * np.sin(dip) and np.array_equal(z, -np.abs(z)):
@@ -43,7 +37,7 @@ def dc3d_wrapper(m,slip,obs_pts,nu,Gshear):
     else:
         print('warning: All z should be negative.')
         
-    disp, grad, stress = dc3d(L,W,c,dip,strike,slip_leftlat,x,y,z,nu,Gshear)
+    disp, grad, stress = dc3d(L,W,c,dip,strike,slip,x,y,z,nu,Gshear)
     return disp.T, grad.T, stress.T
 
 
